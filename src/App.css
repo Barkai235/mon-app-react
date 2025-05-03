@@ -1,0 +1,504 @@
+/* App.css */
+
+/* Importation de polices Google (optionnel) */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+/* Polices et styles de base */
+body {
+  font-family: 'Roboto', Arial, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Variables pour le thème */
+:root {
+  --primary-color: #3b82f6;
+  --secondary-color: #60a5fa;
+  --light-bg: #f7fafc;
+  --dark-bg: #1a1a1a;
+  --light-text: #2d2d2d;
+  --dark-text: #ffffff;
+  --light-border: #e5e7eb;
+  --dark-border: #4b5563;
+  --light-card: #ffffff;
+  --dark-card: #2d2d2d;
+  --light-hover: #f3f4f6;
+  --dark-hover: #374151;
+  --light-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --dark-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --transition: all 0.3s ease;
+  --modal-overlay: rgba(0, 0, 0, 0.85);
+  --modal-bg: #000000;
+  --close-btn-bg: rgba(0, 0, 0, 0.6);
+  --close-btn-hover: rgba(255, 0, 0, 0.8);
+}
+
+/* Style global */
+.min-h-screen {
+  min-height: 100vh;
+  transition: var(--transition);
+}
+
+/* Conteneur principal */
+.container {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* En-tête */
+header {
+  padding: 2rem 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  transition: var(--transition);
+}
+
+header h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+  letter-spacing: 0.05em;
+}
+
+header h2 {
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin: 0.5rem 0 1rem;
+  opacity: 0.8;
+}
+
+/* Photo de profil */
+.rounded-full {
+  border-radius: 50%;
+  transition: transform 0.3s ease;
+}
+
+.rounded-full:hover {
+  transform: scale(1.05);
+}
+
+.border-4 {
+  border-width: 4px;
+}
+
+.border-blue-500 {
+  border-color: var(--primary-color);
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Sections */
+section {
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  transition: var(--transition);
+}
+
+/* Titres de sections */
+section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  position: relative;
+  width: 85%;
+}
+
+section h2::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 60px;
+  background-color: var(--primary-color);
+}
+
+/* Boutons audio et vidéo */
+.audio-btn, .video-btn {
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+.audio-btn:hover, .video-btn:hover {
+  transform: scale(1.2);
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.audio-btn:active, .video-btn:active {
+  transform: scale(0.95);
+}
+
+/* Animation de pulsation pour les boutons audio */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+.audio-btn.playing {
+  animation: pulse 1.5s infinite;
+  color: var(--primary-color);
+}
+
+.video-btn {
+  color: #e74c3c; /* Couleur rouge pour différencier le bouton vidéo */
+}
+
+.video-btn:hover {
+  background-color: rgba(231, 76, 60, 0.1);
+}
+
+/* Fenêtre modale vidéo */
+.video-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--modal-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+}
+
+.video-modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  background-color: var(--modal-bg);
+  border-radius: 0.5rem;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  transform: scale(0.9);
+  animation: scaleIn 0.3s forwards;
+}
+
+@keyframes scaleIn {
+  to { transform: scale(1); }
+}
+
+.video-modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: var(--close-btn-bg);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.video-modal-close:hover {
+  background-color: var(--close-btn-hover);
+}
+
+.video-player {
+  width: 100%;
+  max-height: 90vh;
+  display: block;
+}
+
+/* Formation et expériences */
+section h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0.5rem 0;
+}
+
+.italic {
+  font-style: italic;
+}
+
+/* Compétences */
+.font-medium {
+  font-weight: 500;
+}
+
+/* Barres de progression pour les compétences */
+.h-3 {
+  height: 0.75rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.h-full {
+  height: 100%;
+  transition: width 1s ease-in-out;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.bg-blue-500 {
+  background-color: var(--primary-color);
+}
+
+/* Ombrages */
+.shadow-md {
+  box-shadow: var(--light-shadow);
+}
+
+.shadow-inner {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+
+/* Grille */
+.grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.grid-cols-1 {
+  grid-template-columns: 1fr;
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+/* Bouton de changement de thème */
+button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+/* Utilitaires flexbox */
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-end {
+  justify-content: flex-end;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.mt-1 {
+  margin-top: 0.25rem;
+}
+
+.my-2 {
+  margin: 0.5rem 0;
+}
+
+/* Footer */
+footer {
+  padding: 1.5rem;
+  text-align: center;
+  font-size: 0.875rem;
+  transition: var(--transition);
+}
+
+/* Adaptation pour les thèmes */
+/* Thème clair */
+.bg-gray-100 {
+  background-color: var(--light-bg);
+}
+
+.text-gray-800 {
+  color: var(--light-text);
+}
+
+.bg-white {
+  background-color: var(--light-card);
+}
+
+.bg-gray-200 {
+  background-color: var(--light-hover);
+}
+
+.bg-gray-200:hover {
+  background-color: #e2e8f0;
+}
+
+/* Thème sombre */
+.bg-gray-900 {
+  background-color: var(--dark-bg);
+}
+
+.text-white {
+  color: var(--dark-text);
+}
+
+.bg-gray-800 {
+  background-color: var(--dark-card);
+}
+
+.bg-gray-700 {
+  background-color: var(--dark-hover);
+}
+
+.bg-gray-700:hover {
+  background-color: #4b5563;
+}
+
+/* Thème sombre pour la modale vidéo */
+.bg-gray-900 .video-modal-close {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.bg-gray-900 .video-modal-close:hover {
+  background-color: var(--close-btn-hover);
+}
+
+/* Texte grisé */
+.text-gray-500 {
+  opacity: 0.7;
+}
+
+/* Listes */
+ul.list-disc {
+  padding-left: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+/* Styles spécifiques pour les informations personnelles */
+.font-semibold {
+  font-weight: 600;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+section {
+  animation: fadeIn 0.5s ease-out forwards;
+}
+
+section:nth-child(1) { animation-delay: 0.1s; }
+section:nth-child(2) { animation-delay: 0.2s; }
+section:nth-child(3) { animation-delay: 0.3s; }
+section:nth-child(4) { animation-delay: 0.4s; }
+section:nth-child(5) { animation-delay: 0.5s; }
+section:nth-child(6) { animation-delay: 0.6s; }
+section:nth-child(7) { animation-delay: 0.7s; }
+
+/* Styles pour les appareils mobiles */
+@media (max-width: 768px) {
+  .container {
+    padding: 0.5rem;
+  }
+  
+  header h1 {
+    font-size: 1.75rem;
+  }
+  
+  header h2 {
+    font-size: 1rem;
+  }
+  
+  section {
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .audio-btn, .video-btn {
+    font-size: 1.25rem;
+    width: 36px;
+    height: 36px;
+  }
+  
+  .video-modal-content {
+    max-width: 95%;
+  }
+}
+
+/* Styles pour les transitions de thème */
+.bg-gray-100, .bg-gray-900, .bg-white, .bg-gray-800, .text-white, .text-gray-800 {
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Styles pour l'image de profil */
+.w-40 {
+  width: 10rem;
+}
+
+.h-40 {
+  height: 10rem;
+}
+
+.object-cover {
+  object-fit: cover;
+}
+
+/* Styles pour les compétences */
+.w-full {
+  width: 100%;
+}
